@@ -3,20 +3,22 @@ pragma solidity ^0.8.20;
 
 /**
  * @title Arbitrum Parity Factory
- * @notice Deploys contracts to the same address on Arb One, Nova, and Stylus using Create2.
- * @dev Optimized for Arbitrum gas mechanics.
+ * @author Crescent Host
+ * @notice Canonical CREATE2 factory for deterministic deployment across
+ *         Arbitrum EVM and Stylus (Wasm) environments.
+ * @dev Prototype implementation.
  */
-contract ParityFactory {
+contract ArbitrumParityFactory {
     event Deployed(address indexed addr, bytes32 salt);
 
     /**
      * @notice Deploys a contract using CREATE2
-     * @param salt The randomness salt (must be the same across chains)
-     * @param bytecode The contract creation code
+     * @param salt The deterministic salt (must be identical across chains)
+     * @param bytecode The contract creation bytecode
      */
     function deploy(bytes32 salt, bytes memory bytecode) external returns (address addr) {
         require(bytecode.length > 0, "Bytecode is empty");
-        
+
         assembly {
             addr := create2(0, add(bytecode, 0x20), mload(bytecode), salt)
             if iszero(extcodesize(addr)) {
@@ -28,7 +30,7 @@ contract ParityFactory {
     }
 
     /**
-     * @notice Pre-computes the address where a contract will be deployed
+     * @notice Computes the address for a CREATE2 deployment
      */
     function computeAddress(bytes32 salt, bytes memory bytecode) external view returns (address) {
         bytes32 hash = keccak256(
