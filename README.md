@@ -3,7 +3,7 @@
 Canonical deterministic deployment infrastructure for Arbitrum EVM and Stylus (Wasm).
 
 ## Overview
-
+ 
 The Arbitrum Parity Factory is a CREATE2-based deployment primitive that guarantees
 **identical smart contract addresses across EVM and Stylus environments**, eliminating
 address drift between:
