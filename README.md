@@ -3,45 +3,45 @@
 Canonical deterministic deployment infrastructure for Arbitrum EVM and Stylus (Wasm).
 
 ## Overview
- 
-The Arbitrum Parity Factory is a CREATE2-based deployment primitive that guarantees
-**identical smart contract addresses across EVM and Stylus environments**, eliminating
-address drift between:
+
+The Arbitrum Parity Factory is a CREATE2-based smart contract factory that enables
+developers to deploy contracts to **identical addresses** across:
 
 - Arbitrum One
 - Arbitrum Nova
-- Stylus (Wasm)
+- Stylus (Wasm) environments
 - Orbit / L3 chains
 
-This repository contains an early prototype of the Parity Factory smart contract.
-Production hardening, Stylus integration, SDKs, and tooling are funded via an
-Arbitrum Developer Tooling grant proposal.
+This eliminates address drift between EVM and Stylus deployments and simplifies
+cross-chain configuration, governance, and tooling.
 
-## Why This Exists
+## Problem
 
-Existing deterministic deployment tools only support EVM-to-EVM parity.
-They break when introducing Stylus due to different init-code semantics.
+Existing deployment tooling supports deterministic addresses only within EVM.
+When introducing Stylus (Wasm), address parity breaks due to different
+initialization mechanics.
 
-The Parity Factory solves this by:
-- Abstracting EVM vs Stylus init-code differences
-- Using a universal salt derivation scheme
-- Guaranteeing mathematically identical CREATE2 addresses across execution environments
+## Solution
 
-## Current Status
+This repository provides a canonical factory contract that:
+
+- Abstracts EVM vs Wasm init-code differences
+- Produces mathematically deterministic CREATE2 addresses
+- Requires no per-chain configuration
+
+## Status
 
  **Prototype / Early Implementation**
 
-- Core CREATE2 factory contract implemented
-- Deterministic address derivation logic in place
-- Repository reflects pre-production state
+This repository currently contains the core factory contract.
+Upcoming work includes:
 
-## Planned Milestones
-
-- Canonical factory deployment on Arbitrum One, Nova, and Stylus
 - Stylus Rust SDK adapter
-- CLI tooling (`arb-parity`)
-- Public documentation (“Zero-to-Parity”)
+- CLI tooling for deterministic salt derivation
+- Public documentation and examples
 
-## License
+## Repository Structure
 
-MIT
+```text
+contracts/
+ └─ ArbitrumParityFactory.sol
