@@ -1,23 +1,47 @@
-# Arbitrum Parity Factory 
+# Arbitrum Parity Factory
 
-**A Universal Deterministic Deployment Standard for the Arbitrum Ecosystem.**
+Canonical deterministic deployment infrastructure for Arbitrum EVM and Stylus (Wasm).
 
-##  Overview
-This toolkit solves the **Liquidity Fragmentation** problem by ensuring that smart contracts are deployed to the **exact same address (1:1)** across:
+## Overview
+
+The Arbitrum Parity Factory is a CREATE2-based deployment primitive that guarantees
+**identical smart contract addresses across EVM and Stylus environments**, eliminating
+address drift between:
+
 - Arbitrum One
 - Arbitrum Nova
-- Arbitrum Stylus
-- Ethereum Mainnet
+- Stylus (Wasm)
+- Orbit / L3 chains
 
-## 🛠 Problem
-Currently, developers expanding to Arbitrum often end up with mismatched contract addresses due to nonce drift or different factory implementations. This breaks:
-1. **Bridge Integrations** (LayerZero/Hyperlane configs get complex).
-2. **User Safety** (Phishing risk increases with different addresses).
-3. **Indexer Consistency**.
+This repository contains an early prototype of the Parity Factory smart contract.
+Production hardening, Stylus integration, SDKs, and tooling are funded via an
+Arbitrum Developer Tooling grant proposal.
 
-##  Solution
-The **Parity Factory** uses `CREATE2` opcode mechanics with a unified salt-mining script to guarantee address consistency regardless of the underlying chain ID or Stylus Wasm environment.
+## Why This Exists
 
-##  Installation (Coming Soon)
-```bash
-npm install @crescent/arb-parity
+Existing deterministic deployment tools only support EVM-to-EVM parity.
+They break when introducing Stylus due to different init-code semantics.
+
+The Parity Factory solves this by:
+- Abstracting EVM vs Stylus init-code differences
+- Using a universal salt derivation scheme
+- Guaranteeing mathematically identical CREATE2 addresses across execution environments
+
+## Current Status
+
+ **Prototype / Early Implementation**
+
+- Core CREATE2 factory contract implemented
+- Deterministic address derivation logic in place
+- Repository reflects pre-production state
+
+## Planned Milestones
+
+- Canonical factory deployment on Arbitrum One, Nova, and Stylus
+- Stylus Rust SDK adapter
+- CLI tooling (`arb-parity`)
+- Public documentation (“Zero-to-Parity”)
+
+## License
+
+MIT
